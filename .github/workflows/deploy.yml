@@ -24,10 +24,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: CODE CHECKOUT
-        uses: actions/checkout@v6
+        uses: actions/checkout@v5
 
       - name: SETUP NODE.JS
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v5
         with:
           node-version: lts/*
           cache: "npm"
@@ -42,7 +42,7 @@ jobs:
         run: npm run build
 
       - name: GITHUB PAGES CONFIGURATIONS
-        uses: actions/configure-pages@v6
+        uses: actions/configure-pages@v5
 
       - name: UPLOAD ARTIFACTS
         uses: actions/upload-pages-artifact@v5

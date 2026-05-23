@@ -1,0 +1,54 @@
+name: Deploy GitHub Pages (Vite)
+# https://docs.github.com/pt/actions/reference/workflows-and-actions/contexts#secrets-context
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  actions: read
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: CODE CHECKOUT
+        uses: actions/checkout@v6
+
+      - name: SETUP NODE.JS
+        uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+          cache: "npm"
+
+      - name: INSTALL DEPENDENCIES
+        run: npm ci
+
+      - name: VITE BUILD
+        env:
+          VITE_SECRET: ${{ secrets.TEMPLATE_SECRET }}
+          VITE_VARIABLE: ${{ vars.TEMPALTE_VARIABLE }}
+        run: npm run build
+
+      - name: GITHUB PAGES CONFIGURATIONS
+        uses: actions/configure-pages@v6
+
+      - name: UPLOAD ARTIFACTS
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: "./dist"
+
+      - name: DEPLOY TO GITHUB PAGES
+        id: deployment
+        uses: actions/deploy-pages@v5

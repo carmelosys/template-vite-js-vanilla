@@ -1,0 +1,1 @@
+# template-vite-js-vanilla

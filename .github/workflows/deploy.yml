@@ -37,8 +37,8 @@ jobs:
 
       - name: VITE BUILD
         env:
-          VITE_SECRET: ${{ secrets.TEMPLATE_SECRET }}
           VITE_VARIABLE: ${{ vars.TEMPALTE_VARIABLE }}
+          SECRET_TEMPLATE: ${{ secrets.TEMPLATE_SECRET }}
         run: npm run build
 
       - name: GITHUB PAGES CONFIGURATIONS
